@@ -22,14 +22,18 @@ Unlike standard PII datasets, this collection is specifically engineered to simu
 The dataset is organized into two interconnected CSV files:
 
 ### 1. `ground_truth.csv` (The Identities)
-Contains **5,000 unique synthetic identities**. 
-| Column | Description |
-| :--- | :--- |
-| `name` | Localized Indonesian names (gender-aligned). |
-| `nik` | Valid 16-digit National ID. |
-| `credit_card` | Luhn-compliant card numbers. |
-| `decoy_id` | Invalid 16-digit strings for false-positive testing. |
-| `address` | Localized Indonesian residential addresses. |
+This file contains the raw, "clean" data for 5,000 unique synthetic identities.
+- id: A unique integer identifier for each record.
+- name: Full name generated using Indonesian male and female locales.
+- gender: Biological gender (M/F), used to calculate NIK day offsets.
+- dob: Date of Birth in YYYY-MM-DD format (ages 17–70).
+- nik: 16-digit National ID (Nomor Induk Kependudukan).
+- phone: Indonesian mobile numbers using various prefixes (e.g., 0812, 0857) and formats (+62 vs 08).
+- bank_account: Numeric strings (8–15 digits) simulating Indonesian bank accounts.
+- credit_card: 16-digit numbers that pass the Luhn checksum validation.
+- email: Simulated emails based on the identity's name and common domains.
+- address: Residential addresses localized to various Indonesian provinces.
+- decoy_id: A 16-digit distractor string that mimics NIK formatting but uses invalid prefixes.
 
 ### 2. `prompt_dataset.csv` (The Contextual Prompts)
 Features the PII embedded into three distinct linguistic paradigms. **Crucially, Decoy IDs are intentionally placed in the same context as NIKs within the Slang templates.** This forces models to "reason" through context rather than simply flagging any 16-digit string, making this dataset significantly more challenging than standard `Faker`-generated lists.
